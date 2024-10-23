@@ -22,7 +22,7 @@ const AddProductForm = () => {
 
   return (
     <div className="form-container">
-      <h2>Thêm Hàng Hóa</h2>
+      <h2>Thêm Sản Phẩm</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -38,7 +38,7 @@ const AddProductForm = () => {
           onChange={(e) => setPrice(e.target.value)}
           required
         />
-        <button type="submit">Thêm hàng hóa</button>
+        <button type="submit">Thêm Sản Phẩm</button>
       </form>
       <button className="back-btn" onClick={() => navigate("/products")}>
         Quay Lại

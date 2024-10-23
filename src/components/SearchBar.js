@@ -12,7 +12,7 @@ const SearchBar = ({ onSearch }) => {
   return (
     <input
       type="text"
-      placeholder="Tìm kiếm hàng hóa..."
+      placeholder="Tìm sản phẩm"
       value={query}
       onChange={handleSearch}
       style={{ marginBottom: "15px", padding: "5px", width: "300px" }}

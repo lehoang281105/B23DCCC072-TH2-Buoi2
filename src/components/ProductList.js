@@ -10,27 +10,44 @@ const ProductList = () => {
   const navigate = useNavigate();
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("default"); // Thêm trạng thái để sắp xếp
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filteredProducts = useMemo(() => {
-    return products.filter((product) =>
+  const handleSort = (e) => {
+    setSortOrder(e.target.value); // Cập nhật thứ tự sắp xếp
+  };
+
+  // Lọc và sắp xếp sản phẩm dựa trên từ khóa tìm kiếm và thứ tự sắp xếp
+  const filteredAndSortedProducts = useMemo(() => {
+    let filtered = products.filter((product) =>
       product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }, [products, searchQuery]);
 
-  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    // Sắp xếp sản phẩm theo giá
+    if (sortOrder === "lowToHigh") {
+      return filtered.sort((a, b) => a.price - b.price);
+    } else if (sortOrder === "highToLow") {
+      return filtered.sort((a, b) => b.price - a.price);
+    }
+    return filtered;
+  }, [products, searchQuery, sortOrder]);
+
+  const totalPages = Math.ceil(filteredAndSortedProducts.length / itemsPerPage);
 
   const currentProducts = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
-    return filteredProducts.slice(startIndex, startIndex + itemsPerPage);
-  }, [filteredProducts, currentPage]);
+    return filteredAndSortedProducts.slice(
+      startIndex,
+      startIndex + itemsPerPage
+    );
+  }, [filteredAndSortedProducts, currentPage]);
 
   const handlePageChange = (page) => setCurrentPage(page);
 
   return (
     <div>
-      <h2>Danh Sách Hàng Hóa</h2>
+      <h2>Danh Sách Sản Phẩm</h2>
 
       <div
         style={{
@@ -53,8 +70,17 @@ const ProductList = () => {
           }}
           onClick={() => navigate("/add-product")}
         >
-          Thêm Hàng Hóa
+          Thêm Sản Phẩm
         </button>
+      </div>
+
+      <div style={{ marginBottom: "20px" }}>
+        <label>Sắp xếp theo: </label>
+        <select onChange={handleSort} value={sortOrder}>
+          <option value="default">Mặc định</option>
+          <option value="lowToHigh">Giá: Thấp đến Cao</option>
+          <option value="highToLow">Giá: Cao đến Thấp</option>
+        </select>
       </div>
 
       {currentProducts.length > 0 ? (
@@ -68,32 +94,33 @@ const ProductList = () => {
                 Xóa
               </button>
               <Link to={`/edit-product/${product.id}`}>
-                <button className="edit-btn">Chỉnh sửa</button>
+                <button className="edit-btn">Sửa</button>
               </Link>
             </div>
           </div>
         ))
       ) : (
-        <p>Không tìm thấy hàng hóa nào!</p>
+        <p>Không tìm thấy gì!</p>
       )}
-
-      <div className="pagination">
-        <button
-          disabled={currentPage === 1}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          Trang trước
-        </button>
-        <span>
-          Trang {currentPage} / {totalPages}
-        </span>
-        <button
-          disabled={currentPage === totalPages}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          Trang sau
-        </button>
-      </div>
+      {totalPages > 1 && (
+        <div className="pagination">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+          >
+            Trang trước
+          </button>
+          <span>
+            Trang {currentPage} / {totalPages}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+          >
+            Trang sau
+          </button>
+        </div>
+      )}
     </div>
   );
 };

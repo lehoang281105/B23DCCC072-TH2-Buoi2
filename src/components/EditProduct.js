@@ -29,7 +29,7 @@ const EditProductForm = () => {
 
   return (
     <div className="form-container">
-      <h2>Chỉnh Sửa Hàng Hóa</h2>
+      <h2>Chỉnh Sửa</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -45,7 +45,7 @@ const EditProductForm = () => {
           onChange={(e) => setPrice(e.target.value)}
           required
         />
-        <button type="submit">Lưu Thay Đổi</button>
+        <button type="submit">Lưu</button>
       </form>
       <button className="back-btn" onClick={() => navigate("/products")}>
         Quay Lại

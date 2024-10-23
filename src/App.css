@@ -130,7 +130,7 @@ body {
 
 .sidebar {
   width: 250px;
-  background-color: #333;
+  background-color: black;
   color: white;
   padding: 20px;
   display: flex;
