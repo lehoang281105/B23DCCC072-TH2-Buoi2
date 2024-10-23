@@ -12,7 +12,7 @@ const ProductList = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("default"); // Thêm trạng thái để sắp xếp
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 4;
 
   const handleSort = (e) => {
     setSortOrder(e.target.value); // Cập nhật thứ tự sắp xếp
